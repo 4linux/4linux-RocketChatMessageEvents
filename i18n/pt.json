@@ -1,0 +1,12 @@
+{
+    "block_message_update_label": "Bloquear atualizar mensagem",
+    "block_message_update_description": "Bloquear a possibilidade dos agentes alterarem textos das mensagens no livechat?",
+    "block_message_quote_label": "Bloquear citar mensagem",
+    "block_message_quote_description": "Bloquear a possibilidade dos agentes citarem mensagens no livechat?",
+    "block_message_remove_label": "Bloquear remover mensagem",
+    "block_message_remove_description": "Bloquear a possibilidade dos agentes removerem mensagens no livechat?",
+    "notify_user_alias_label": "Alias do usuário para notificações",
+    "notify_user_alias_description": "Qual nome de usuário exibir ao notificar usuários sobre os bloqueios?",
+    "notify_avatar_emoji_label": "Avatar emoji das notificações",
+    "notify_avatar_emoji_description": "Qual avatar emoji exibir ao notificar os usuários sobre os bloqueios?"
+}

@@ -1,0 +1,12 @@
+{
+    "block_message_update_label": "Block update message",
+    "block_message_update_description": "Block the possibility for agents to change message texts in livechat?",
+    "block_message_quote_label": "Block quote message",
+    "block_message_quote_description": "Block agents from quoting messages on livechat?",
+    "block_message_remove_label": "Block remove message",
+    "block_message_remove_description": "Block agents from removing messages in livechat?",
+    "notify_user_alias_label": "User alias for notifications",
+    "notify_user_alias_description": "What username to display when notifying users about locks?",
+    "notify_avatar_emoji_label": "Notifications emoji avatar",
+    "notify_avatar_emoji_description": "Which emoji avatar to display when notifying users about blocks?"
+}
