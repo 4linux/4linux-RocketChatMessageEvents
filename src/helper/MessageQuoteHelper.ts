@@ -21,14 +21,16 @@ export class MessageQuoteHelper {
         return regex.test(message.text ?? '');
     }
 
-    public removeQuote(message: IMessage): void {
+    public removeQuote(messageText: string): string {
         const regex = new RegExp(this.replaceRegexServerUrl(), 'ig');
 
-        message.text = message.text?.replace(regex, '');
-        message.text = message.text?.trim();
+        messageText = messageText.replace(regex, '');
+        messageText = messageText.trim();
+
+        return messageText;
     }
 
-    private replaceRegexServerUrl() {
+    private replaceRegexServerUrl(): string {
         return REGEX_QUOTE_REGEX.replace('%SERVER_URL%', this.serverUrl);
     }
 

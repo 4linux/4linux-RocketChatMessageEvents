@@ -42,44 +42,35 @@ export class FourLinuxMessageEventsApp
         await SETTINGS.forEach((setting) => configuration.settings.provideSetting(setting));
     }
 
-    public executePreMessageUpdatedPrevent(message: IMessage, read: IRead, http: IHttp, persistence: IPersistence): Promise<boolean> {
+    public async executePreMessageUpdatedPrevent(message: IMessage, read: IRead, http: IHttp, persistence: IPersistence): Promise<boolean> {
+        const block = await this.messageUpdateService.check(message, read, http);
 
-        return this.messageUpdateService
-            .check(message, read, http)
-            .then((block) => {
-                if (!block) {
-                    return false;
-                }
+        if (!block) {
+            return false;
+        }
 
-                return this.messageUpdateService.execute(message, read, http, persistence);
-            })
-            .catch(() => false);
+        return this.messageUpdateService.execute(message, read, http, persistence);
     }
 
-    public executePreMessageSentModify(message: IMessage, builder: IMessageBuilder, read: IRead, http: IHttp, persistence: IPersistence): Promise<IMessage> {
-        return this.messageSentService
-            .check(message, read, http)
-            .then((block) => {
-                if (!block) {
-                    return message;
-                }
+    // tslint:disable-next-line: max-line-length
+    public async executePreMessageSentModify(message: IMessage, builder: IMessageBuilder, read: IRead, http: IHttp, persistence: IPersistence): Promise<IMessage> {
+        const block = await this.messageSentService.check(message, read, http);
 
-                return this.messageSentService.execute(message, read, http, persistence, builder);
-            })
-            .catch(() => message);
+        if (!block) {
+            return builder.getMessage();
+        }
+
+        return this.messageSentService.execute(message, read, http, persistence, builder);
     }
 
-    public executePreMessageDeletePrevent(message: IMessage, read: IRead, http: IHttp, persistence: IPersistence): Promise<boolean> {
-        return this.messageDeleteService
-            .check(message, read, http)
-            .then((block) => {
-                if (!block) {
-                    return false;
-                }
+    public async executePreMessageDeletePrevent(message: IMessage, read: IRead, http: IHttp, persistence: IPersistence): Promise<boolean> {
+        const block = await this.messageDeleteService.check(message, read, http);
 
-                return this.messageDeleteService.execute(message, read, http, persistence);
-            })
-            .catch(() => false);
+        if (!block) {
+            return false;
+        }
+
+        return this.messageDeleteService.execute(message, read, http, persistence);
     }
 
 }

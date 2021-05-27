@@ -25,19 +25,13 @@ export class MessageSentService implements IMessageService {
         return new Promise(async (res) => {
             const messageQuote = await MessageQuoteHelper.messageQuoteHelperFactory(read.getEnvironmentReader());
 
-            messageQuote.removeQuote(message);
+            const messageText = messageQuote.removeQuote(message.text ?? '');
 
-            const messageBuilding = builder.setText(message.text ?? '')
-                .setSender(message.sender)
-                .setRoom(message.room);
-
-            // message.attachments?.forEach(attachment => {
-            //     messageBuilding.addAttachment(attachment);
-            // });
+            builder.setText(messageText);
 
             await NotifyHelper.notifyUser(message.sender, message.room, read, 'No momento não é permitido permitido citar mensagens em livechats!');
 
-            res(messageBuilding.getMessage());
+            res(builder.getMessage());
         });
     }
 
