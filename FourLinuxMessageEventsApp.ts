@@ -42,28 +42,44 @@ export class FourLinuxMessageEventsApp
         await SETTINGS.forEach((setting) => configuration.settings.provideSetting(setting));
     }
 
-    public checkPreMessageUpdatedPrevent(message: IMessage, read: IRead, http: IHttp): Promise<boolean> {
-        return this.messageUpdateService.check(message, read, http);
-    }
-
     public executePreMessageUpdatedPrevent(message: IMessage, read: IRead, http: IHttp, persistence: IPersistence): Promise<boolean> {
-        return this.messageUpdateService.execute(message, read, http, persistence);
-    }
 
-    public checkPreMessageSentModify(message: IMessage, read: IRead, http: IHttp): Promise<boolean> {
-        return this.messageSentService.check(message, read, http);
+        return this.messageUpdateService
+            .check(message, read, http)
+            .then((block) => {
+                if (!block) {
+                    return false;
+                }
+
+                return this.messageUpdateService.execute(message, read, http, persistence);
+            })
+            .catch(() => false);
     }
 
     public executePreMessageSentModify(message: IMessage, builder: IMessageBuilder, read: IRead, http: IHttp, persistence: IPersistence): Promise<IMessage> {
-        return this.messageSentService.execute(message, read, http, persistence, builder);
-    }
+        return this.messageSentService
+            .check(message, read, http)
+            .then((block) => {
+                if (!block) {
+                    return message;
+                }
 
-    public checkPreMessageDeletePrevent(message: IMessage, read: IRead, http: IHttp): Promise<boolean> {
-        return this.messageDeleteService.check(message, read, http);
+                return this.messageSentService.execute(message, read, http, persistence, builder);
+            })
+            .catch(() => message);
     }
 
     public executePreMessageDeletePrevent(message: IMessage, read: IRead, http: IHttp, persistence: IPersistence): Promise<boolean> {
-        return this.messageDeleteService.execute(message, read, http, persistence);
+        return this.messageDeleteService
+            .check(message, read, http)
+            .then((block) => {
+                if (!block) {
+                    return false;
+                }
+
+                return this.messageDeleteService.execute(message, read, http, persistence);
+            })
+            .catch(() => false);
     }
 
 }
